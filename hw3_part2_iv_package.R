@@ -28,12 +28,12 @@ summary_tbl <- df %>%
 print(summary_tbl)
 
 model_form <- as.formula(y ~ x1 + x2)
-instr_z1 <- as.formula(~ x1 + z1)
-instr_z12 <- as.formula(~ x1 + z1 + z2)
+iv_formula_z1 <- as.formula(y ~ x1 + x2 | x1 + z1)
+iv_formula_z12 <- as.formula(y ~ x1 + x2 | x1 + z1 + z2)
 
 ols_mod <- lm(model_form, data = df)
-iv_z1 <- ivreg(model_form | instr_z1, data = df)
-iv_z12 <- ivreg(model_form | instr_z12, data = df)
+iv_z1 <- ivreg(iv_formula_z1, data = df)
+iv_z12 <- ivreg(iv_formula_z12, data = df)
 
 extract_tidy <- function(fit, label) {
   tidy(fit) %>%
